@@ -1,0 +1,136 @@
+/* ===========================================================
+ * 赛博传记 CyBio — Tailwind v4 设计系统源
+ * Token 字典来自 HANDOFF §3（设计 → 代码 Handoff）
+ * 4 主色 + 5 中性 + 3 字号 + 5 圆角 + 4 间距 + 2 投影
+ * 编译: npx tailwindcss -i src/tw.css -o web/_tw.css --minify
+ * 部署: 走 deploy/push.sh，零 CDN
+ * =========================================================== */
+
+@import "tailwindcss";
+
+/* Tailwind v4 扫描路径：让 JIT 知道要扫描哪些 HTML/JS */
+@source "../web/**/*.html";
+@source "../web/**/*.js";
+
+/* ====== 主色（4 个，老友好暖色，1:1 复刻设计稿） ====== */
+@theme {
+  --color-ochre: #9C6B3F;        /* 赭石：主强调（按钮、CTA、tab 高亮、本节点） */
+  --color-ochre-strong: #7C4F2A; /* 深赭：按下态、深节点 */
+  --color-ochre-soft: #F3E7D6;   /* 淡赭：hover 背景 */
+  --color-pine: #5B7C6B;         /* 松绿：辅色（章节标题、成功、AI 气泡头像） */
+  --color-pine-soft: #E1EAE6;    /* 淡松绿 */
+  --color-warm-red: #B14A3A;     /* 暖红：警示/红点角标 */
+  --color-warm-amber: #C8922E;   /* 暖琥珀：警告 */
+
+  /* ====== 中性暖灰（5 阶，家书/宣纸感） ====== */
+  --color-cream: #FAF7F0;        /* 奶白：主背景 */
+  --color-cream-soft: #F7F4EE;   /* 淡米白：二级表面 */
+  --color-beige: #E2D6C2;        /* 米色：分割线 */
+  --color-warm-gray: #8A7A68;    /* 暖灰：辅助文字 */
+  --color-deep-brown: #3A332A;   /* 深褐：正文 */
+  --color-pure-white: #FFFDF8;   /* 纸白：卡片表面 */
+
+  /* ====== 字号（老友好档，硬编码不依赖系统） ====== */
+  --text-display: 28px;          /* Songti SC Bold / 28pt / line-height 36 */
+  --text-display--line-height: 36px;
+  --text-body: 19px;             /* Inter Regular / 19pt / 28 */
+  --text-body--line-height: 28px;
+  --text-caption: 15px;          /* Inter Medium / 15pt / 22 */
+  --text-caption--line-height: 22px;
+  --text-button: 19px;           /* Inter Semi Bold / 19pt */
+  --text-button--line-height: 28px;
+
+  /* ====== 字体族 ====== */
+  --font-serif: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC",
+    "Microsoft YaHei", "Segoe UI", Roboto, sans-serif;
+
+  /* ====== 圆角（5 阶） ====== */
+  --radius-xs: 8px;              /* 小元素 */
+  --radius-sm: 14px;             /* chip */
+  --radius-md: 22px;             /* card（主） */
+  --radius-lg: 28px;             /* btn-pill */
+  --radius-xl: 40px;             /* avatar / 屏框 */
+
+  /* ====== 间距阶梯（4 / 8 / 12 / 16 / 20 / 24） ====== */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+
+  /* ====== 投影（暖色阴影） ====== */
+  --shadow-card: 0 8px 20px -4px rgba(90, 70, 40, 0.05);
+  --shadow-button: 0 8px 18px -4px rgba(124, 79, 42, 0.4);
+  --shadow-soft: 0 1px 3px rgba(90, 70, 40, 0.05);
+
+  /* ====== 容器 ====== */
+  --breakpoint-mobile: 390px;
+  --breakpoint-tablet: 480px;
+}
+
+/* ====== 全局基线（家书暖色基调） ====== */
+@layer base {
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    background: var(--color-cream);
+    color: var(--color-deep-brown);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 28px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* 微信 X5 加固：input 必须 >=16px 避免聚焦放大 */
+  input,
+  textarea,
+  select,
+  button {
+    -webkit-appearance: none;
+    appearance: none;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    font-family: inherit;
+  }
+
+  input,
+  textarea,
+  select {
+    user-select: text;
+    -webkit-user-select: text;
+    pointer-events: auto;
+  }
+
+  /* 衬线大标题 */
+  h1,
+  h2,
+  h3,
+  .serif {
+    font-family: var(--font-serif);
+    color: var(--color-ochre-strong);
+  }
+
+  /* 滚动条暖化 */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-beige);
+    border-radius: 999px;
+  }
+
+  /* 选区暖色 */
+  ::selection {
+    background: var(--color-ochre-soft);
+    color: var(--color-ochre-strong);
+  }
+}
+
+/* ====== 复用组件（写在 @layer utilities 末尾仍可被覆盖） ====== */
+
+

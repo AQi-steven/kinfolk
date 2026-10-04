@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#8b1a1a" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kinfolk" />
+  <title>登录 / 注册 · Kinfolk 一生之记</title>
+  <script>
+    window.__APP_VERSION__ = '__BUILD_VERSION__';
+    (function(){
+      try {
+        var ua = navigator.userAgent || '';
+        if (!/MicroMessenger/i.test(ua)) return;
+        var url = new URL(location.href);
+        if (url.searchParams.has('_wxr')) return;
+        url.searchParams.set('_wxr', window.__APP_VERSION__ || Date.now().toString());
+        location.replace(url.toString());
+      } catch(_) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="_tw.css?v=__BUILD_VERSION__" />
+  <link rel="stylesheet" href="css/styles.css?v=__BUILD_VERSION__" />
+</head>
+<body>
+  <div id="app-shell">
+    <header id="topbar">
+      <div class="brand">
+        <span class="logo">📖</span>
+        <div>
+          <div class="brand-title">Kinfolk</div>
+          <div class="brand-sub">AI 访谈式个人传记</div>
+        </div>
+      </div>
+    </header>
+
+    <main id="app" style="padding-top:16px">
+      <div class="auth-wrap">
+        <div class="auth-brand">
+          <div class="logo">📖</div>
+          <div class="t">Kinfolk 一生之记</div>
+          <div class="s">让 AI 像朋友一样，把你的一生听下来、记下来</div>
+        </div>
+
+        <!-- 静态 tabs（原生，不依赖 JS 动态创建） -->
+        <div class="auth-tabs">
+          <button id="tab-login" class="active" type="button">登录</button>
+          <button id="tab-register" type="button">注册</button>
+        </div>
+
+        <div class="auth-card">
+          <!-- 静态表单：input 直接写在 HTML 中，X5 内核 100% 可聚焦弹键盘 -->
+          <form id="auth-form" autocomplete="on">
+            <div class="field">
+              <label for="f-id">账号（手机号或邮箱）</label>
+              <input id="f-id" class="input" type="text" inputmode="email" autocomplete="username" placeholder="手机号或邮箱" />
+            </div>
+            <div class="field" id="field-nick" style="display:none">
+              <label for="f-nick">昵称（族人怎么称呼你）</label>
+              <input id="f-nick" class="input" type="text" autocomplete="nickname" placeholder="昵称（族人怎么称呼你）" />
+            </div>
+            <div class="field" id="field-real" style="display:none">
+              <label for="f-real">真实姓名（身份锚，用于和家族树对齐）</label>
+              <input id="f-real" class="input" type="text" autocomplete="name" placeholder="你的真实姓名" />
+            </div>
+            <div class="field">
+              <label for="f-pw">密码</label>
+              <div class="pw-row">
+                <input id="f-pw" class="input pw-input" type="password" name="password" autocomplete="current-password" placeholder="密码（至少 6 位）" />
+                <button id="pw-toggle" class="pw-toggle" type="button" aria-label="显示密码">👁</button>
+              </div>
+            </div>
+            <button id="submit-btn" class="btn-block" type="submit">登录</button>
+            <div class="muted" style="margin-top:12px;text-align:center">
+              50 人内熟人圈，无需短信验证码。
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-layer"></div>
+  <div id="modal-layer"></div>
+
+  <script src="js/store.js?v=__BUILD_VERSION__"></script>
+  <script src="js/api.js?v=__BUILD_VERSION__"></script>
+  <script src="js/ui.js?v=__BUILD_VERSION__"></script>
+  <script src="js/auth.js?v=__BUILD_VERSION__"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(function (registration) {
+          // 三种入口（微信链接/浏览器网址/PWA 图标）都主动检查新版本
+          registration.update();
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', function () {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+          });
+        }).catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>

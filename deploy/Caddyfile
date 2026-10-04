@@ -1,0 +1,26 @@
+# ⚠️ 本文件【未启用 / 仅供参考】。
+# 2026-08-21 SSH 实测：服务器 80/443 上既不是 nginx 也不是 Caddy，
+# 本 Caddyfile 与 deploy/nginx/* 均为 QC 仓库里的死配置，从未运行。
+# 真正的入口是 QC 自写 Node 反代（pm2 `reverse-proxy`，/path/to/qc/proxy-lcgcy-443.js）。
+# 赛博家谱的实际接入方式见 deploy/PROXY_INTEGRATION.md（改反代 Host 分流 + 扩证书）。
+# ─────────────────────────────────────────────────────────────
+
+# ── 某单位（保持原样，端口 3000，绝不改动）──
+YOUR_DOMAIN, www.YOUR_DOMAIN {
+    reverse_proxy localhost:3000
+    encode gzip
+    log {
+        output file /var/log/caddy/quality-app.log
+        format json
+    }
+}
+
+# ── 赛博家谱（新增二级域名，端口 4000）──
+YOUR_DOMAIN {
+    reverse_proxy localhost:4000
+    encode gzip
+    log {
+        output file /var/log/caddy/cybio-app.log
+        format json
+    }
+}

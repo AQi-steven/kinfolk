@@ -1,0 +1,43 @@
+# 依赖
+node_modules/
+
+# WorkBuddy 项目内存（含本机路径/记忆，勿入库）
+.workbuddy/
+
+# 历次会话遗留的临时草稿（文件与目录）
+tmp_*
+tmp-*
+_trash_*
+
+# 审计/排查临时脚本目录
+tmp-audit/
+
+# 备份残留
+*.bak
+*.bak.*
+
+# 运行期数据与上传（含真人数据/密钥文件，勿入库）
+server/data/
+web/uploads/
+.build-version
+ecosystem.config.cjs
+SecretKey.csv
+*.secret
+
+# 本地环境变量（含真实密钥，勿入库；样例见 .env.example）
+.env
+
+# ===== 开源分支额外排除 =====
+# 以下是内部审计产物与过程记录，可能包含真实界面截图（grep 查不出图中的文字），
+# 分享时不应对外公开。本地文件保留，仅从版本索引移除。
+# 详见 sanitize.py 说明与 CONTRIBUTING.md「提交前自查」
+outputs/
+shots/
+REVIEW_*.md
+PROGRESS.md
+DESIGN_PROMPT_*.md
+
+# 内部排查脚本（含个人数据处理痕迹，不对外共享；本地保留）
+scripts/
+.codebuddy/
+_legacy_pages_*/

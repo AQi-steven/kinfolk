@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="theme-color" content="#9c6b3f" />
+  <link rel="icon" href="icon-192.png" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <title>认领家族节点 · Kinfolk 一生之记</title>
+  <script>
+    window.__APP_VERSION__ = '__BUILD_VERSION__';
+    (function(){
+      try {
+        var ua = navigator.userAgent || '';
+        if (!/MicroMessenger/i.test(ua)) return;
+        var url = new URL(location.href);
+        if (url.searchParams.has('_wxr')) return;
+        url.searchParams.set('_wxr', window.__APP_VERSION__ || Date.now().toString());
+        location.replace(url.toString());
+      } catch(_) {}
+    })();
+  </script>
+  <link rel="stylesheet" href="_tw.css?v=__BUILD_VERSION__" />
+  <link rel="stylesheet" href="css/styles.css?v=__BUILD_VERSION__" />
+</head>
+<body>
+  <div id="app-shell">
+    <header id="topbar">
+      <div class="brand">
+        <span class="logo">📖</span>
+        <div>
+          <div class="brand-title">Kinfolk</div>
+          <div class="brand-sub">AI 访谈式家族传记</div>
+        </div>
+      </div>
+    </header>
+    <main id="app" style="padding-top:16px">
+      <div id="claim-root"></div>
+    </main>
+  </div>
+  <div id="toast-layer"></div>
+  <div id="modal-layer"></div>
+
+  <script src="js/store.js?v=__BUILD_VERSION__"></script>
+  <script src="js/api.js?v=__BUILD_VERSION__"></script>
+  <script src="js/ui.js?v=__BUILD_VERSION__"></script>
+  <script src="js/claim.js?v=__BUILD_VERSION__"></script>
+</body>
+</html>

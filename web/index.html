@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="theme-color" content="#FAF7F0" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Kinfolk" />
+  <title>Kinfolk · 一生之记</title>
+  <script>window.__APP_VERSION__ = '__BUILD_VERSION__';</script>
+  <script>
+    (function(){
+      try {
+        var ua = navigator.userAgent || '';
+        if (!/MicroMessenger/i.test(ua)) return;
+        var url = new URL(location.href);
+        if (url.searchParams.has('_wxr')) return;
+        url.searchParams.set('_wxr', window.__APP_VERSION__ || Date.now().toString());
+        location.replace(url.toString());
+      } catch(_) {}
+    })();
+  </script>
+  <!-- Tailwind v4 本地化编译产物（零 CDN；HANDOFF §7 提醒 1） -->
+  <link rel="stylesheet" href="_tw.css?v=__BUILD_VERSION__" />
+  <!-- 旧 styles.css 保留作为渐进增强 -->
+  <link rel="stylesheet" href="css/styles.css?v=__BUILD_VERSION__" />
+  <link rel="stylesheet" href="css/person-edit.css?v=__BUILD_VERSION__" />
+</head>
+<body>
+  <!-- 顶栏（统一返回 + 品牌 + ⚙️ 菜单） -->
+  <!-- 返回按钮由 app.js 按路由显隐；位置固定在最左，所有内页一致（首页不显示）。
+       2026-09-14 用户要求："进入一个页面及返回前页面要有统一的按钮位置"。 -->
+  <header id="topbar" class="topbar">
+    <button id="top-back-btn" class="top-back-btn" type="button" aria-label="返回上一页" style="display:none;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+      <span>返回</span>
+    </button>
+    <div class="brand-new">
+      <a href="#/home" class="brand-new-link">
+        <span class="brand-new-logo">📖</span>
+        <div>
+          <div class="brand-new-title serif">Kinfolk<small style="display:block;font-size:12px;letter-spacing:.22em;opacity:.6;margin-top:4px">一生之记</small></div>
+          <div class="brand-new-sub">我的传记</div>
+        </div>
+      </a>
+    </div>
+    <button id="top-menu-btn" class="gear-btn" aria-label="菜单">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      <span id="top-menu-badge" class="dot dot-absolute" style="display:none;">0</span>
+    </button>
+    <div id="top-menu" class="top-menu-new" style="display:none;">
+      <div class="tm-item-new" data-action="inbox">
+        <span>✉️</span>
+        <span>消息</span>
+        <span id="tm-inbox-badge" class="dot" style="display:none; margin-left:auto;">0</span>
+      </div>
+      <div class="tm-item-new" data-action="verify">
+        <span>🔗</span>
+        <span>同名核实</span>
+        <span id="tm-verify-badge" class="dot" style="display:none; margin-left:auto;">0</span>
+      </div>
+      <div class="tm-item-new" data-action="settings">
+        <span>👤</span>
+        <span>我的</span>
+      </div>
+      <div class="tm-item-new tm-item-danger" data-action="logout">
+        <span>🚪</span>
+        <span>退出登录</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主内容（由 hash 路由渲染） -->
+  <main id="app" class="app-main"></main>
+
+  <div id="toast-layer"></div>
+  <div id="modal-layer"></div>
+
+  <script src="js/store.js?v=__BUILD_VERSION__"></script>
+  <script src="js/api.js?v=__BUILD_VERSION__"></script>
+  <script src="js/ui.js?v=__BUILD_VERSION__"></script>
+  <script src="js/icons.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/home.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/interview.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/photo-icebreak.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/person-edit.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/lifebook.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/figures.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/inbox.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/verify.js?v=__BUILD_VERSION__"></script>
+  <script src="js/pages/settings.js?v=__BUILD_VERSION__"></script>
+  <script src="js/app.js?v=__BUILD_VERSION__"></script>
+  <script>
+    // 注册 Service Worker（PWA：可"添加到主屏幕"成为独立 App）
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/sw.js').then(function (registration) {
+          registration.update();
+          let refreshing = false;
+          navigator.serviceWorker.addEventListener('controllerchange', function () {
+            if (refreshing) return;
+            refreshing = true;
+            window.location.reload();
+          });
+        }).catch(function () {});
+      });
+    }
+  </script>
+</body>
+</html>
